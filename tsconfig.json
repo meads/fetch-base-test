@@ -1,0 +1,20 @@
+{
+  "compileOnSave": true,  
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "declaration": true, 
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "lib": [ "dom", "es2015", "es5", "es6" ],
+    "strict": true, 
+    "noImplicitAny": true, 
+    "strictNullChecks": true, 
+    "noUnusedLocals": true, 
+    "noUnusedParameters": true, 
+    "noImplicitReturns": true, 
+    "noFallthroughCasesInSwitch": true, 
+    "moduleResolution": "node",
+    "experimentalDecorators": true, 
+  }
+}
