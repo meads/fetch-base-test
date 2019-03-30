@@ -3,36 +3,16 @@ const app = express()
 const cors = require('cors')
 const PORT = 8080
 
-
-class Automobile {
-    constructor(
-        make = "",
-        model = "",
-    ){}
-}
-
-class Car extends Automobile {
-    constructor(
-        make = "",
-        model = "",
-        hybrid = false,
-    ){
-        super(make, model)
-    }
-}
-
-// add cors middleware
-app.use(cors())
-
-app.get('/', (req, res) => {
-    debugger
+var apiRouter = express.Router()
+apiRouter.route('/')
+.get((req, res) => {
     res.send([
-        { make: "toyota", model: "corolla", hybrid: false },
-        { make: "toyota", model: "prius", hybrid: true },
+        { commonName: "southern magnolia", genus: "magnolia", species: "grandifloria" },
+        { commonName: "banana shrub", genus: "magnolia", species: "fuscata" },
     ])
 })
-// app.put('/:thing', (req, res) => {
-//     debugger
-// })
 
-app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))
+app.use(cors())
+app.use('/api', apiRouter)
+
+app.listen(PORT, () => console.log(`Example api listening on port ${PORT}!`))

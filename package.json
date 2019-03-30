@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./client/dist/index.d.ts",
   "scripts": {
-    "build": "rm dist/* && tsc && browserify dist/index.js -o dist/main.js -d",
+    "build": "rm client/dist/* && tsc && browserify client/dist/index.js -o client/dist/main.js -d",
     "start": "node ./server/main.js",
-    "test": "http-server -c -1 -o"
+    "test": "http-server ./client -c -1 -o"
   },
   "author": "",
   "license": "ISC",
