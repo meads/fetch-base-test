@@ -5,16 +5,15 @@
   "main": "index.js",
   "types": "./client/dist/index.d.ts",
   "scripts": {
-    "build": "rm client/dist/* && tsc && browserify client/dist/index.js -o client/dist/main.js -d",
-    "start": "node ./server/main.js",
-    "test": "http-server ./client -c -1 -o"
+    "build": "./bin/build.sh",
+    "test": "./bin/test.sh"
   },
-  "author": "",
+  "author": "Mike Eads",
   "license": "ISC",
   "dependencies": {
     "@types/requirejs": "^2.1.31",
     "express": "^4.16.2",
-    "fetch-base": "1.0.7",
+    "fetch-base": "^1.0.10",
     "requirejs": "^2.3.5",
     "whatwg-fetch": "^2.0.3"
   },

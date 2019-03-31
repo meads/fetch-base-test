@@ -13,16 +13,7 @@ npm install
 npm run-script build
 ```
 
-# start the server
+# test the fetch-base npm package consumption from client app
 ```bash
-# run in terminal 1 (blocking call)
-npm run-script start
-```
-
-# launch the client
-```bash
-# run in separate terminal 2 (blocking as well)
 npm run-script test
-
-# open the dev tools to see the fetch result
 ```
