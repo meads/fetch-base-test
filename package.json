@@ -13,7 +13,7 @@
   "dependencies": {
     "@types/requirejs": "^2.1.31",
     "express": "^4.16.2",
-    "fetch-base": "^1.0.10",
+    "fetch-base": "^1.0.12",
     "requirejs": "^2.3.5",
     "whatwg-fetch": "^2.0.3"
   },

@@ -12,10 +12,12 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var fetch_base_1 = require("fetch-base");
 var Plant = /** @class */ (function () {
-    function Plant(commonName, genus, species) {
+    function Plant(id, commonName, genus, species) {
+        if (id === void 0) { id = 0; }
         if (commonName === void 0) { commonName = ""; }
         if (genus === void 0) { genus = ""; }
         if (species === void 0) { species = ""; }
+        this.id = id;
         this.commonName = commonName;
         this.genus = genus;
         this.species = species;
