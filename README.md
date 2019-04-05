@@ -10,10 +10,10 @@ npm install
 
 # build the app
 ```bash
-npm run-script build
+npm run build
 ```
 
 # test the fetch-base npm package consumption from client app
 ```bash
-npm run-script test
+npm run test
 ```

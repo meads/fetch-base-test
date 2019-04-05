@@ -9,4 +9,4 @@ echo "sleeping a sec."
 sleep 1
 
 echo "building; starting a local http server in the client/ directory..."
-./bin/build.sh && http-server ./client -c -1 -o
+./bin/build.sh && sleep 1 && http-server ./client -c-1 -p 8081 -o

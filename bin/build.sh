@@ -2,6 +2,10 @@
 
 set -ex
 
-rm client/dist/* && tsc && browserify client/dist/index.js -o client/dist/main.js -d
+
+if [[ "$(ls -A client/dist)" ]]; then
+    rm client/dist/*
+fi
+tsc && browserify client/dist/index.js -o client/dist/main.js -d
 
 
