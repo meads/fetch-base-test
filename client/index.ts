@@ -1,9 +1,9 @@
 import { FetchBase }  from "fetch-base"
 
 export class Plant {
+    id: number = 0
+    lastUpdated: string = ""
     constructor(
-        public id: number = 0,
-        public lastUpdated: string = "",
         public commonName: string = "",
         public genus: string = "",
         public species: string = "",
@@ -19,37 +19,21 @@ class PlantService extends FetchBase<Plant> {
         })
     }
     postOptions(item: Plant): RequestInit {
-        return { 
-            method: "POST", 
-            body: JSON.stringify(item),
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }
+        return this.getRequestInit("POST", JSON.stringify(item))
     }
     putOptions(item: Plant): RequestInit {
-        return { 
-            method: "PUT", 
-            body: JSON.stringify(item),
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }
+        return this.getRequestInit("PUT", JSON.stringify(item))
     }
     getOptions(): RequestInit {
-        return { 
-            method: "GET",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }
+        return this.getRequestInit("GET")
     }
     deleteOptions(): RequestInit {
-        return { 
-            method: "DELETE",
+        return this.getRequestInit("DELETE")
+    }
+    private getRequestInit(method: string, body?: string): RequestInit {
+        return {
+            body,
+            method,
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
@@ -61,9 +45,7 @@ class PlantService extends FetchBase<Plant> {
 (async function(){
         
     let plantService = new PlantService()
-    let plant = new Plant(0, '', 'southern magnolia', 'magnolia', 'grandiflora')
-    console.log(plant)
-    let postResult = await plantService.post(plant)
+    let postResult = await plantService.post(new Plant('southern magnolia', 'magnolia', 'grandiflora'))
     console.log(`Here is the post result: `)
     console.log(postResult)
 
@@ -71,12 +53,13 @@ class PlantService extends FetchBase<Plant> {
     console.log(`Here is the single result: `)
     console.log(singlePlant)
 
-    singlePlant.commonName = "Southern Magnolia"
-    let putResult = await plantService.put(singlePlant)
+    let tmpPlant = JSON.parse(JSON.stringify(singlePlant)) // make a copy of 'single' result 
+    tmpPlant.commonName = "Southern Magnolia"
+    let putResult = await plantService.put(tmpPlant)
     console.log(`Here is the put result: `)
     console.log(putResult)
 
-    let post2Result = await plantService.post( new Plant(0, '', "banana shrub", "magnolia", "fuscata"))
+    let post2Result = await plantService.post(new Plant("banana shrub", "magnolia", "fuscata"))
     console.log(`Here is the post 2 result: `)
     console.log(post2Result)
 

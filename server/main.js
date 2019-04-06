@@ -1,12 +1,12 @@
-const express = require('express')
+const express = require("express")
 const app = express()
-var bodyParser = require('body-parser')
-const cors = require('cors')
+const bodyParser = require("body-parser")
+const cors = require("cors")
 const PORT = 8080
 
-app.use(bodyParser.json({ type: 'application/json' }));
+app.use(bodyParser.json({ type: "application/json" }))
 app.use(cors())
-app.options('*', cors());
+app.options("*", cors())
 
 function DataRepository() {
     this.data = new Map()
@@ -15,7 +15,7 @@ function DataRepository() {
     return this
 }
 DataRepository.prototype.insert = function(item) {
-    item["id"] = (++this.lastId)
+    item["id"] = ++this.lastId
     item.lastUpdated = new Date()
     this.data.set(this.lastId, item)
     return this.lastId
@@ -27,11 +27,12 @@ DataRepository.prototype.update = function(item) {
     if (!this.data.has(item.id)) {
         return false
     }
-    let el = this.data.get(item.id) 
+    let el = this.data.get(item.id)
+    for (let k of Object.keys(item)) {
+        if (k == "id") continue
+        el[k] = item[k]
+    }
     el.lastUpdated = new Date()
-    el.genus = item.genus
-    el.species = item.species
-    el.commonName = item.commonName
     this.data.set(el.id, el)
     return true
 }
@@ -52,53 +53,56 @@ let plantRepository = new DataRepository()
 function lookupPlant(req, res, next) {
     try {
         let id = parseInt(req.params.id, 10)
-        let plant = req.params.id ? 
-            plantRepository.find(id) : 
-            plantRepository.findAll();
-        if (!plant) {
-            res.statusCode = 404
-            res.json({ errors: ['Plant not found']})
+        if (Number.isSafeInteger(id)) {
+            let plant = plantRepository.find(id)
+            if (!plant) {
+                res.statusCode = 404
+                res.json({ errors: ["Plant not found"] })
+            } else {
+                res.statusCode = 200
+                req.plant = plant
+                next()
+            }
         }
-        res.statusCode = 200
-        req.plant = plant
-        next()
     } catch (e) {
         console.error(e)
-        res.statusCode = 500    
-        res.json({ errors: ['Failed to fetch plant', e]})
+        res.statusCode = 400
+        res.json({ errors: ["Failed to fetch plant", e] })
     }
 }
-var plantRouter = express.Router();
+var plantRouter = express.Router()
 
-plantRouter.get('/', lookupPlant, function(req, res) { 
-    return res.json(req.plant); 
+plantRouter.get("/", function(req, res) {
+    res.statusCode = 200
+    res.json(plantRepository.findAll())
 })
 
-plantRouter.post('/', function(req, res) {
+plantRouter.get("/:id", lookupPlant, function(req, res) {
+    res.json(req.plant)
+})
+
+plantRouter.post("/", function(req, res) {
     let lastId = plantRepository.insert(req.body)
     res.statusCode = 201
-    return res.json(plantRepository.find(lastId))
-});
+    res.json(plantRepository.find(lastId))
+})
 
-plantRouter.get('/:id', lookupPlant, function(req, res) {
-    return res.json(req.plant)
-});
-
-plantRouter.put('/:id', function(req, res) {
-    let status = 404
-    if (plantRepository.update(req.body)) {
-        status = 200
+plantRouter.put("/:id", function(req, res) {
+    try {
+        res.statusCode = plantRepository.update(req.body) ? 200 : 404
+        res.json(null)
+    } catch (e) {
+        res.statusCode = 400
+        res.json({ errors: ["Failed to update plant", e] })
     }
-    res.statusCode = status
-    return res.json({updated: status == 200, time: new Date()})
-});
+})
 
-plantRouter.delete('/:id', function(req, res) {
-    req.statusCode = 200
+plantRouter.delete("/:id", function(req, res) {
     plantRepository.remove(req.params.id)
-    return res.json({deleted: true})
-});
+    req.statusCode = 200
+    res.json(null)
+})
 
-app.use('/plant', plantRouter)
+app.use("/plant", plantRouter)
 
 app.listen(PORT, () => console.log(`Example api listening on port ${PORT}!`))

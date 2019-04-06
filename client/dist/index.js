@@ -50,17 +50,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var fetch_base_1 = require("fetch-base");
 var Plant = /** @class */ (function () {
-    function Plant(id, lastUpdated, commonName, genus, species) {
-        if (id === void 0) { id = 0; }
-        if (lastUpdated === void 0) { lastUpdated = ""; }
+    function Plant(commonName, genus, species) {
         if (commonName === void 0) { commonName = ""; }
         if (genus === void 0) { genus = ""; }
         if (species === void 0) { species = ""; }
-        this.id = id;
-        this.lastUpdated = lastUpdated;
         this.commonName = commonName;
         this.genus = genus;
         this.species = species;
+        this.id = 0;
+        this.lastUpdated = "";
     }
     return Plant;
 }());
@@ -75,37 +73,21 @@ var PlantService = /** @class */ (function (_super) {
         }) || this;
     }
     PlantService.prototype.postOptions = function (item) {
-        return {
-            method: "POST",
-            body: JSON.stringify(item),
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
+        return this.getRequestInit("POST", JSON.stringify(item));
     };
     PlantService.prototype.putOptions = function (item) {
-        return {
-            method: "PUT",
-            body: JSON.stringify(item),
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
+        return this.getRequestInit("PUT", JSON.stringify(item));
     };
     PlantService.prototype.getOptions = function () {
-        return {
-            method: "GET",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
+        return this.getRequestInit("GET");
     };
     PlantService.prototype.deleteOptions = function () {
+        return this.getRequestInit("DELETE");
+    };
+    PlantService.prototype.getRequestInit = function (method, body) {
         return {
-            method: "DELETE",
+            body: body,
+            method: method,
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
@@ -116,14 +98,12 @@ var PlantService = /** @class */ (function (_super) {
 }(fetch_base_1.FetchBase));
 (function () {
     return __awaiter(this, void 0, void 0, function () {
-        var plantService, plant, postResult, singlePlant, putResult, post2Result, plants, delete1Result, delete2Result;
+        var plantService, postResult, singlePlant, tmpPlant, putResult, post2Result, plants, delete1Result, delete2Result;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     plantService = new PlantService();
-                    plant = new Plant(0, '', 'southern magnolia', 'magnolia', 'grandiflora');
-                    console.log(plant);
-                    return [4 /*yield*/, plantService.post(plant)];
+                    return [4 /*yield*/, plantService.post(new Plant('southern magnolia', 'magnolia', 'grandiflora'))];
                 case 1:
                     postResult = _a.sent();
                     console.log("Here is the post result: ");
@@ -134,13 +114,15 @@ var PlantService = /** @class */ (function (_super) {
                     ;
                     console.log("Here is the single result: ");
                     console.log(singlePlant);
-                    singlePlant.commonName = "Southern Magnolia";
-                    return [4 /*yield*/, plantService.put(singlePlant)];
+                    tmpPlant = JSON.parse(JSON.stringify(singlePlant)) // make a copy of 'single' result 
+                    ;
+                    tmpPlant.commonName = "Southern Magnolia";
+                    return [4 /*yield*/, plantService.put(tmpPlant)];
                 case 3:
                     putResult = _a.sent();
                     console.log("Here is the put result: ");
                     console.log(putResult);
-                    return [4 /*yield*/, plantService.post(new Plant(0, '', "banana shrub", "magnolia", "fuscata"))];
+                    return [4 /*yield*/, plantService.post(new Plant("banana shrub", "magnolia", "fuscata"))];
                 case 4:
                     post2Result = _a.sent();
                     console.log("Here is the post 2 result: ");
