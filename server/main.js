@@ -22,7 +22,7 @@ DataRepository.prototype.insert = function(item) {
 }
 DataRepository.prototype.update = function(item) {
     if (!("id" in item)) {
-        throw new Error("no id field on item to update")
+        this.insert(item) // not checking for duplication here so...
     }
     if (!this.data.has(item.id)) {
         return false
@@ -50,26 +50,6 @@ DataRepository.prototype.remove = function(id) {
 }
 
 let plantRepository = new DataRepository()
-function lookupPlant(req, res, next) {
-    try {
-        let id = parseInt(req.params.id, 10)
-        if (Number.isSafeInteger(id)) {
-            let plant = plantRepository.find(id)
-            if (!plant) {
-                res.statusCode = 404
-                res.json({ errors: ["Plant not found"] })
-            } else {
-                res.statusCode = 200
-                req.plant = plant
-                next()
-            }
-        }
-    } catch (e) {
-        console.error(e)
-        res.statusCode = 400
-        res.json({ errors: ["Failed to fetch plant", e] })
-    }
-}
 var plantRouter = express.Router()
 
 plantRouter.get("/", function(req, res) {
@@ -77,8 +57,16 @@ plantRouter.get("/", function(req, res) {
     res.json(plantRepository.findAll())
 })
 
-plantRouter.get("/:id", lookupPlant, function(req, res) {
-    res.json(req.plant)
+plantRouter.get("/:id", function(req, res) {
+    let id = parseInt(req.params.id, 10)
+    let plant = plantRepository.find(id)
+    if (!plant) {
+        res.statusCode = 404
+        res.json({ errors: ["Plant not found"] })
+    } else {
+        res.statusCode = 200
+        res.json(plant)
+    }
 })
 
 plantRouter.post("/", function(req, res) {
@@ -88,17 +76,14 @@ plantRouter.post("/", function(req, res) {
 })
 
 plantRouter.put("/:id", function(req, res) {
-    try {
-        res.statusCode = plantRepository.update(req.body) ? 200 : 404
-        res.json(null)
-    } catch (e) {
-        res.statusCode = 400
-        res.json({ errors: ["Failed to update plant", e] })
-    }
+    plantRepository.update(req.body)
+    res.statusCode = 202
+    res.json(null)
 })
 
 plantRouter.delete("/:id", function(req, res) {
-    plantRepository.remove(req.params.id)
+    let id = parseInt(req.params.id, 10)
+    plantRepository.remove(id)
     req.statusCode = 200
     res.json(null)
 })

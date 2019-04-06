@@ -74,4 +74,8 @@ class PlantService extends FetchBase<Plant> {
     let delete2Result = await plantService.delete(plants[1])
     console.log(`Here is the delete 2 result: `)
     console.log(delete2Result)
+
+    let remainingPlants = await plantService.get()
+    console.log(`Here is the get result after deleting entities: `)
+    console.log(remainingPlants)
 }())

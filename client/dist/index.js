@@ -98,7 +98,7 @@ var PlantService = /** @class */ (function (_super) {
 }(fetch_base_1.FetchBase));
 (function () {
     return __awaiter(this, void 0, void 0, function () {
-        var plantService, postResult, singlePlant, tmpPlant, putResult, post2Result, plants, delete1Result, delete2Result;
+        var plantService, postResult, singlePlant, tmpPlant, putResult, post2Result, plants, delete1Result, delete2Result, remainingPlants;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -142,6 +142,11 @@ var PlantService = /** @class */ (function (_super) {
                     delete2Result = _a.sent();
                     console.log("Here is the delete 2 result: ");
                     console.log(delete2Result);
+                    return [4 /*yield*/, plantService.get()];
+                case 8:
+                    remainingPlants = _a.sent();
+                    console.log("Here is the get result after deleting entities: ");
+                    console.log(remainingPlants);
                     return [2 /*return*/];
             }
         });
