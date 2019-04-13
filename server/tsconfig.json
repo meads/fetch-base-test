@@ -1,11 +1,10 @@
 {
-    "extends": "../../tsconfig.json",
+    "extends": "../tsconfig",
     "compilerOptions": {
       "composite": true,
       "outDir": "./dist",
       "rootDir": "./src",
-      "types": ["node"],
-    //   "lib": [ "es2015", "es5", "es6", "dom" ],
     },
+    "files": ["src/main.ts"]
   }
   

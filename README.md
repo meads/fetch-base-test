@@ -8,12 +8,8 @@ https://www.npmjs.com/package/fetch-base
 npm install
 ```
 
-# build the app
+# test the fetch-base npm package
 ```bash
-npm run build
-```
-
-# test the fetch-base npm package consumption from client app
-```bash
+# test runs clean & build scripts first
 npm run test
 ```

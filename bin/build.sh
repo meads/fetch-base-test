@@ -2,8 +2,5 @@
 
 set -ex
 
-
-# if [[ "$(ls -A client/dist)" ]]; then
-#     rm client/dist/*
-# fi
-tsc && browserify client/dist/index.js -o client/dist/main.js -d
+# run typescript build and browserify the client outFile
+tsc --build && browserify client/dist/index.js -o client/dist/main.js -d

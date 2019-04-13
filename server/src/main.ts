@@ -49,7 +49,7 @@ class DataRepository {
 let plantRepository = new DataRepository()
 var plantRouter = express.Router()
 
-plantRouter.get("/", (req: any, res: any) => {
+plantRouter.get("/", (_req: any, res: any) => {
     res.statusCode = 200
     res.json(plantRepository.findAll())
 })
