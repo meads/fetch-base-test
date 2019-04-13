@@ -4,9 +4,10 @@
     "target": "es5",
     "module": "commonjs",
     "declaration": true, 
-    "outDir": "./client/dist",
-    "rootDir": "./client",
-    "lib": [ "dom", "es2015", "es5", "es6" ],
+    // "outDir": "./client/dist",
+    // "rootDir": "./client/src",
+    // "lib": [ "dom", "es2015", "es5", "es6" ],
+    // "lib": ["es2015", "es5", "es6"],
     "strict": true, 
     "noImplicitAny": true, 
     "strictNullChecks": true, 
@@ -16,5 +17,9 @@
     "noFallthroughCasesInSwitch": true, 
     "moduleResolution": "node",
     "experimentalDecorators": true, 
-  }
+  },
+  "references": [
+    { "path": "./client" },
+    { "path": "./server" },
+  ]
 }
