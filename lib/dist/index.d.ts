@@ -15,9 +15,9 @@ export declare class DataRepository<T extends ITrackableAndIdentifiable> {
     lastId: number;
     insert(item: T): number;
     update(item: T): boolean;
-    find(id: any): T;
+    find(id: number): T;
     findAll(): Array<T>;
-    remove(id: any): boolean;
+    remove(id: number): boolean;
 }
 export declare class PlantRepository extends DataRepository<Plant> {
 }

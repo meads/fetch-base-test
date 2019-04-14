@@ -35,13 +35,13 @@ export class DataRepository<T extends ITrackableAndIdentifiable> {
         }
         return true
     }
-    find(id: any): T {
+    find(id: number): T {
         return <T>this.data.get(id)
     }
     findAll(): Array<T> {
         return Array.from(this.data.values())
     }
-    remove(id: any) {
+    remove(id: number) {
         if (!this.data.has(id)) {
             return false
         }

@@ -12,6 +12,7 @@ class PlantService extends FetchBase<Plant> {
         })
     }
 }
+
 var showResponse = (summary: string, obj: any) => {
     let detEl = document.createElement("details")
     let sumryEl = document.createElement("summary")
@@ -24,6 +25,7 @@ var showResponse = (summary: string, obj: any) => {
     document.body.appendChild(detEl)
     document.body.appendChild(document.createElement("br"))
 }
+
 var editor = (code: string) => {
     return CodeMirror(document.body, {
         value: code,
