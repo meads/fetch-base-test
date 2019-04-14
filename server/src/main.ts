@@ -1,3 +1,5 @@
+import { Plant } from "../../model"
+
 const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
@@ -11,13 +13,13 @@ app.options("*", cors())
 class DataRepository {
     data = new Map()
     lastId = 0
-    insert(item: any) {
+    insert(item: Plant) {
         item["id"] = ++this.lastId
-        item.lastUpdated = new Date()
+        item.lastUpdated = new Date().toString()
         this.data.set(this.lastId, item)
         return this.lastId
     }
-    update(item: any) {
+    update(item: Plant) {
         if (!("id" in item)) {
             this.insert(item) // not checking for duplication here so...
         }
@@ -27,16 +29,16 @@ class DataRepository {
         let el = this.data.get(item.id)
         for (let k of Object.keys(item)) {
             if (k == "id") continue
-            el[k] = item[k]
+            el[k] = (<any>item)[k]
         }
         el.lastUpdated = new Date()
         this.data.set(el.id, el)
         return true
     }
-    find(id: any) {
+    find(id: any): Plant {
         return this.data.get(id)
     }
-    findAll() {
+    findAll(): Array<Plant> {
         return Array.from(this.data.values())
     }
     remove(id: any) {

@@ -1,6 +1,9 @@
 #!/bin/bash
 
-set -ex
+set -x
 
-rm client/tsconfig.tsbuildinfo server/tsconfig.tsbuildinfo
-rm -rf client/dist server/dist
+rm client/tsconfig.tsbuildinfo 2> /dev/null
+rm server/tsconfig.tsbuildinfo 2> /dev/null
+# rm model/tsconfig.tsbuildinfo 2> /dev/null
+   
+rm -rf client/dist server/dist 2> /dev/null

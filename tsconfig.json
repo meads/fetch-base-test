@@ -14,9 +14,14 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
   },
-  "exclude": ["./client/src/*.ts", "./server/src/*.ts"],
+  "exclude": [
+    "./client/src/*.ts", 
+    "./server/src/*.ts",
+    "./model/**/*.ts"
+  ],
   "references": [
     { "path": "./client" },
     { "path": "./server" },
+    { "path": "./model" }
   ]
 }

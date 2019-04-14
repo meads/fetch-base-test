@@ -1,14 +1,5 @@
 import { FetchBase } from "fetch-base"
-
-export class Plant {
-    id: number = 0
-    lastUpdated: string = ""
-    constructor(
-        public commonName: string = "",
-        public genus: string = "",
-        public species: string = ""
-    ) {}
-}
+import { Plant } from "../../model"
 
 class PlantService extends FetchBase<Plant> {
     constructor() {

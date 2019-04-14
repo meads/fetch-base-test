@@ -1,0 +1,10 @@
+{
+  "compileOnSave": false,
+  "extends": "../tsconfig",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+  },
+  "files": ["src/index.ts"]
+}

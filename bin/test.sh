@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "cleaning up build files."
-./bin/clean.sh 2> /dev/null
+./bin/clean.sh
 
 echo "transpiling .ts files in client/ and server/ 'typescript projects'"
 ./bin/build.sh
