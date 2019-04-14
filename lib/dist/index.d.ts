@@ -6,7 +6,7 @@ export declare class Plant {
     lastUpdated: string;
     constructor(commonName?: string, genus?: string, species?: string);
 }
-interface ITrackableAndIdentifiable {
+export interface ITrackableAndIdentifiable {
     id: any;
     lastUpdated: string;
 }
@@ -21,4 +21,3 @@ export declare class DataRepository<T extends ITrackableAndIdentifiable> {
 }
 export declare class PlantRepository extends DataRepository<Plant> {
 }
-export {};

@@ -1,9 +1,9 @@
-import { Plant, PlantRepository } from "../../lib/dist"
+import { PlantRepository } from "../../lib/dist"
+import express = require("express")
+import bodyParser = require("body-parser")
+import cors = require("cors")
 
-const express = require("express")
-const app = express()
-const bodyParser = require("body-parser")
-const cors = require("cors")
+const app: express.Application = express()
 const PORT = 8080
 
 app.use(bodyParser.json({ type: "application/json" }))

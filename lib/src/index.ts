@@ -7,11 +7,10 @@ export class Plant {
         public species: string = ""
     ) {}
 }
-interface ITrackableAndIdentifiable {
+export interface ITrackableAndIdentifiable {
     id: any
     lastUpdated: string
 }
-
 export class DataRepository<T extends ITrackableAndIdentifiable> {
     data = new Map<number, T>()
     lastId = 0
@@ -23,7 +22,7 @@ export class DataRepository<T extends ITrackableAndIdentifiable> {
     }
     update(item: T) {
         if (!("id" in item)) {
-            this.insert(item) // not checking for duplication here so...
+            this.insert(item)
         }
         if (!this.data.has(item.id)) {
             return false
@@ -49,5 +48,4 @@ export class DataRepository<T extends ITrackableAndIdentifiable> {
         return this.data.delete(id)
     }
 }
-
 export class PlantRepository extends DataRepository<Plant> {}

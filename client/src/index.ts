@@ -1,4 +1,6 @@
-import { FetchBase } from "fetch-base"
+import { FetchBase, Identifyable } from "fetch-base"
+import * as CodeMirror from "codemirror"
+import "codemirror/mode/javascript/javascript"
 import { Plant } from "../../lib/dist"
 
 class PlantService extends FetchBase<Plant> {
@@ -9,75 +11,99 @@ class PlantService extends FetchBase<Plant> {
             protocol: "http"
         })
     }
-    postOptions(item: Plant): RequestInit {
-        return this.getRequestInit("POST", JSON.stringify(item))
-    }
-    putOptions(item: Plant): RequestInit {
-        return this.getRequestInit("PUT", JSON.stringify(item))
-    }
-    getOptions(): RequestInit {
-        return this.getRequestInit("GET")
-    }
-    deleteOptions(): RequestInit {
-        return this.getRequestInit("DELETE")
-    }
-    private getRequestInit(method: string, body?: string): RequestInit {
-        return {
-            body,
-            method,
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }
-    }
 }
-// <details>
-//     <summary>summary</summary>
-//     obj
-// </details>
-var show = (summary: string, obj: any) => {
-    document.body.appendChild(
-        document
-            .createElement("details")
-            .appendChild(
-                document
-                    .createElement("summary")
-                    .appendChild(document.createTextNode(summary))
-            )
-            .appendChild(document.createTextNode(JSON.stringify(obj)))
-    )
+var showResponse = (summary: string, obj: any) => {
+    let detEl = document.createElement("details")
+    let sumryEl = document.createElement("summary")
+    let sumry = document.createTextNode(summary)
+    sumryEl.appendChild(sumry)
+    detEl.appendChild(sumryEl)
+    let objStr = document.createTextNode(JSON.stringify(obj))
+    detEl.appendChild(objStr)
+    document.body.appendChild(document.createElement("br"))
+    document.body.appendChild(detEl)
+    document.body.appendChild(document.createElement("br"))
+}
+var editor = (code: string) => {
+    return CodeMirror(document.body, {
+        value: code,
+        mode: "text/typescript",
+        theme: "monokai",
+        lineNumbers: true,
+        foldGutter: true,
+        lineWrapping: true,
+        readOnly: true
+    })
 }
 ;(async function() {
+    editor(`
+import { FetchBase, Identifyable } from "fetch-base"
+import { Plant } from "../../lib/dist"
+
+class PlantService extends FetchBase<Plant> {
+    constructor() {
+        super({
+            ip: "localhost:8080",
+            api: "plant",
+            protocol: "http"
+        })
+    }
+}
+
+let plantService = new PlantService()
+let p = new Plant("southern magnolia", "magnolia", "grandiflora")
+let postResult = <Identifyable>await plantService.post(p)
+console.log(postResult)
+`)
     let plantService = new PlantService()
-    let postResult = <Plant>(
-        await plantService.post(
-            new Plant("southern magnolia", "magnolia", "grandiflora")
-        )
-    )
-    show("post result", postResult)
+    let p = new Plant("southern magnolia", "magnolia", "grandiflora")
+    let postResult = <Identifyable>await plantService.post(p)
+    showResponse("post result", postResult)
 
     let singlePlant = await plantService.single(postResult.id)
-    show("single result", singlePlant)
+    editor(`
+let singlePlant = await plantService.single(postResult.id)
+console.log(singlePlant)
+    `)
+    showResponse("single result", singlePlant)
+
     let tmpPlant = JSON.parse(JSON.stringify(singlePlant)) // make a copy of 'single' result
     tmpPlant.commonName = "Southern Magnolia" // change something
     let putResult = await plantService.put(tmpPlant)
-    show("put result", putResult)
+    editor(`
+let tmpPlant = JSON.parse(JSON.stringify(singlePlant)) // make a copy of 'single' result
+tmpPlant.commonName = "Southern Magnolia" // change something
+let putResult = await plantService.put(tmpPlant)
+console.log(putResult)
+    `)
+    showResponse("put result", putResult)
 
     let post2Result = await plantService.post(
         new Plant("banana shrub", "magnolia", "fuscata")
     )
-    show("post2 result", post2Result)
+    editor(`
+let post2Result = await plantService.post(
+    new Plant("banana shrub", "magnolia", "fuscata")
+)
+    `)
+    showResponse("post2 result", post2Result)
 
     let plants = await plantService.get()
-    show("get result", plants)
+    editor("let plants = await plantService.get()")
+    showResponse("get result", plants)
 
     let delete1Result = await plantService.delete(plants[0])
-    show("delete 1 result", delete1Result)
+    editor("let delete1Result = await plantService.delete(plants[0])")
+    showResponse("delete 1 result", delete1Result)
 
     let delete2Result = await plantService.delete(plants[1])
-    show("Here is the delete 2 result", delete2Result)
+    editor("let delete2Result = await plantService.delete(plants[1])")
+    showResponse("Here is the delete 2 result", delete2Result)
 
     let remainingPlants = await plantService.get()
-    show(`Here is the get result after deleting entities: `, remainingPlants)
+    editor("let remainingPlants = await plantService.get()")
+    showResponse(
+        "Here is the get result after deleting entities: ",
+        remainingPlants
+    )
 })()

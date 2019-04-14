@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -ex
-
 echo "removing tsconfig.tsbuildinfo file from lib."
 echo
 rm lib/tsconfig.tsbuildinfo 2> /dev/null
