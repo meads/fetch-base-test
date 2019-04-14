@@ -1,5 +1,5 @@
 import { FetchBase } from "fetch-base"
-import { Plant } from "../../model"
+import { Plant } from "../../lib/dist"
 
 class PlantService extends FetchBase<Plant> {
     constructor() {
@@ -32,7 +32,22 @@ class PlantService extends FetchBase<Plant> {
         }
     }
 }
-
+// <details>
+//     <summary>summary</summary>
+//     obj
+// </details>
+var show = (summary: string, obj: any) => {
+    document.body.appendChild(
+        document
+            .createElement("details")
+            .appendChild(
+                document
+                    .createElement("summary")
+                    .appendChild(document.createTextNode(summary))
+            )
+            .appendChild(document.createTextNode(JSON.stringify(obj)))
+    )
+}
 ;(async function() {
     let plantService = new PlantService()
     let postResult = <Plant>(
@@ -40,38 +55,29 @@ class PlantService extends FetchBase<Plant> {
             new Plant("southern magnolia", "magnolia", "grandiflora")
         )
     )
-    console.log(`Here is the post result: `)
-    console.log(postResult)
+    show("post result", postResult)
 
     let singlePlant = await plantService.single(postResult.id)
-    console.log(`Here is the single result: `)
-    console.log(singlePlant)
-
+    show("single result", singlePlant)
     let tmpPlant = JSON.parse(JSON.stringify(singlePlant)) // make a copy of 'single' result
     tmpPlant.commonName = "Southern Magnolia" // change something
     let putResult = await plantService.put(tmpPlant)
-    console.log(`Here is the put result: `)
-    console.log(putResult)
+    show("put result", putResult)
 
     let post2Result = await plantService.post(
         new Plant("banana shrub", "magnolia", "fuscata")
     )
-    console.log(`Here is the post 2 result: `)
-    console.log(post2Result)
+    show("post2 result", post2Result)
 
     let plants = await plantService.get()
-    console.log(`Here is the get result: `)
-    console.log(plants)
+    show("get result", plants)
 
     let delete1Result = await plantService.delete(plants[0])
-    console.log(`Here is the delete 1 result: `)
-    console.log(delete1Result)
+    show("delete 1 result", delete1Result)
 
     let delete2Result = await plantService.delete(plants[1])
-    console.log(`Here is the delete 2 result: `)
-    console.log(delete2Result)
+    show("Here is the delete 2 result", delete2Result)
 
     let remainingPlants = await plantService.get()
-    console.log(`Here is the get result after deleting entities: `)
-    console.log(remainingPlants)
+    show(`Here is the get result after deleting entities: `, remainingPlants)
 })()

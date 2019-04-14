@@ -1,4 +1,4 @@
-import { Plant } from "../../model"
+import { Plant, PlantRepository } from "../../lib/dist"
 
 const express = require("express")
 const app = express()
@@ -10,45 +10,7 @@ app.use(bodyParser.json({ type: "application/json" }))
 app.use(cors())
 app.options("*", cors())
 
-class DataRepository {
-    data = new Map()
-    lastId = 0
-    insert(item: Plant) {
-        item["id"] = ++this.lastId
-        item.lastUpdated = new Date().toString()
-        this.data.set(this.lastId, item)
-        return this.lastId
-    }
-    update(item: Plant) {
-        if (!("id" in item)) {
-            this.insert(item) // not checking for duplication here so...
-        }
-        if (!this.data.has(item.id)) {
-            return false
-        }
-        let el = this.data.get(item.id)
-        for (let k of Object.keys(item)) {
-            if (k == "id") continue
-            el[k] = (<any>item)[k]
-        }
-        el.lastUpdated = new Date()
-        this.data.set(el.id, el)
-        return true
-    }
-    find(id: any): Plant {
-        return this.data.get(id)
-    }
-    findAll(): Array<Plant> {
-        return Array.from(this.data.values())
-    }
-    remove(id: any) {
-        if (!this.data.has(id)) {
-            return false
-        }
-        return this.data.delete(id)
-    }
-}
-let plantRepository = new DataRepository()
+let plantRepository = new PlantRepository()
 var plantRouter = express.Router()
 
 plantRouter.get("/", (_req: any, res: any) => {

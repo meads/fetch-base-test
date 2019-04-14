@@ -4,8 +4,10 @@
   "description": "Example of using fetch-base npm package",
   "scripts": {
     "test": "./bin/test.sh",
-    "build": "./bin/build.sh",
-    "clean": "./bin/clean.sh"
+    "build": "./bin/build-lib.sh && ./bin/build.sh",
+    "build-lib": "./bin/build-lib.sh",
+    "clean": "./bin/clean-lib.sh && ./bin/clean.sh",
+    "clean-lib": "./bin/clean-lib.sh"
   },
   "author": "Mike Eads",
   "license": "ISC",
