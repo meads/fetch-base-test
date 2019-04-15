@@ -13,3 +13,5 @@ npm install
 # test runs clean & build scripts first
 npm run test
 ```
+
+![screenshot of output](screenshot.png)
