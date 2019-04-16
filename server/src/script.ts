@@ -1,16 +1,14 @@
-#!/bin/node
-const FetchBase = require("fetch-base").FetchBase
-const chalk = require("chalk")
+#!/usr/bin/bash
 
-class SiteFetcher extends FetchBase {
+import { FetchBase } from "fetch-base"
+import chalk from "chalk"
+
+class SiteFetcher extends FetchBase<any> {
     constructor() {
         super({
-            ip: "mikeads.com",
             protocol: "https",
-            port: 80,
-            api: ""
+            ip: "mikeads.com"
         })
-        this.endpoint = ""
     }
     handleFetchResponse(response: Response) {
         if (!response.ok) {
@@ -20,6 +18,6 @@ class SiteFetcher extends FetchBase {
     }
 }
 
-new SiteFetcher().get().then((text: string) => {
+new SiteFetcher().get().then((text: any) => {
     console.log(chalk.green(text))
 })

@@ -17,7 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "codemirror": "^5.45.0",
-    "fetch-base": "^1.1.5",
+    "fetch-base": "^1.1.6",
     "requirejs": "^2.3.6"
   },
   "devDependencies": {
