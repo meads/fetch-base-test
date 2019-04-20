@@ -1,4 +1,4 @@
-import { FetchBase, Identifyable } from "fetch-base"
+import { FetchBase } from "fetch-base"
 import * as CodeMirror from "codemirror"
 import "codemirror/mode/javascript/javascript"
 import { Plant } from "../../lib/dist"
@@ -6,9 +6,10 @@ import { Plant } from "../../lib/dist"
 class PlantService extends FetchBase<Plant> {
     constructor() {
         super({
-            ip: "localhost:8080",
+            port: 8080,
             api: "plant",
-            protocol: "http"
+            protocol: "http",
+            ip: "localhost"
         })
     }
 }
@@ -39,41 +40,42 @@ var editor = (code: string) => {
 }
 ;(async function() {
     editor(`
-import { FetchBase, Identifyable } from "fetch-base"
+import { FetchBase } from "fetch-base"
 import { Plant } from "../../lib/dist"
 
 class PlantService extends FetchBase<Plant> {
     constructor() {
         super({
-            ip: "localhost:8080",
+            port: 8080,
             api: "plant",
-            protocol: "http"
+            protocol: "http",
+            ip: "localhost"
         })
     }
 }
 
 let plantService = new PlantService()
 let p = new Plant("southern magnolia", "magnolia", "grandiflora")
-let postResult = <Identifyable>await plantService.post(p)
+let postResult = await plantService.post(p)
 console.log(postResult)
 `)
     let plantService = new PlantService()
     let p = new Plant("southern magnolia", "magnolia", "grandiflora")
-    let postResult = <Identifyable>await plantService.post(p)
+    let postResult = await plantService.post(p)
     showResponse("post result", postResult)
 
-    let singlePlant = await plantService.single(postResult.id)
+    let plant = await plantService.find(postResult.id)
     editor(`
-let singlePlant = await plantService.single(postResult.id)
-console.log(singlePlant)
+let plant = await plantService.find(postResult.id)
+console.log(plant)
     `)
-    showResponse("single result", singlePlant)
+    showResponse("find result", plant)
 
-    let tmpPlant = JSON.parse(JSON.stringify(singlePlant)) // make a copy of 'single' result
+    let tmpPlant = JSON.parse(JSON.stringify(plant)) // make a copy of 'find' result
     tmpPlant.commonName = "Southern Magnolia" // change something
     let putResult = await plantService.put(tmpPlant)
     editor(`
-let tmpPlant = JSON.parse(JSON.stringify(singlePlant)) // make a copy of 'single' result
+let tmpPlant = JSON.parse(JSON.stringify(plant)) // make a copy of 'find' result
 tmpPlant.commonName = "Southern Magnolia" // change something
 let putResult = await plantService.put(tmpPlant)
 console.log(putResult)
