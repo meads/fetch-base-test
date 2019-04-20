@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env node
 
 import { FetchBase } from "fetch-base"
 import chalk from "chalk"
