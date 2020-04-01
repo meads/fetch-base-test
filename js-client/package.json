@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "fetch-base": "*"
+  },
+  "devDependencies": {
+    "http-server": "^0.12.0"
+  },
+  "scripts": {
+      "test": "http-server -c-1 -o ."
+  }
+}

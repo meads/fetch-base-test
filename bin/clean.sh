@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 echo "removing tsconfig.tsbuildinfo files from client and server"
 echo
 rm client/tsconfig.tsbuildinfo 2> /dev/null
