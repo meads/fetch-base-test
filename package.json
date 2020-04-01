@@ -1,17 +1,9 @@
 {
   "name": "fetch-base-test",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Example of using fetch-base npm package",
   "scripts": {
-    "test": "./bin/test.sh",
-    "test-node": "./bin/build-clean-all.sh && node ./server/dist/script.js",
-    "build-all": "./bin/build-lib.sh && ./bin/build.sh",
-    "build-lib": "./bin/build-lib.sh",
-    "build-client-server": "./bin/build.sh",
-    "clean-all": "./bin/clean-lib.sh && ./bin/clean.sh",
-    "clean-lib": "./bin/clean-lib.sh",
-    "clean-client-server": "./bin/clean.sh",
-    "build-clean-all": "./bin/build-clean-all.sh"
+    "test": "./bin/test.sh"
   },
   "author": "Mike Eads",
   "license": "ISC",
