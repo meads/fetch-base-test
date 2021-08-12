@@ -9,7 +9,7 @@
   "author": "Mike Eads",
   "license": "ISC",
   "dependencies": {
-    "codemirror": "^5.49.2",
+    "codemirror": "^5.58.2",
     "fetch-base": "^1.1.12",
     "requirejs": "^2.3.6"
   },
