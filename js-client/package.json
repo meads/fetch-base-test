@@ -3,7 +3,7 @@
     "fetch-base": "*"
   },
   "devDependencies": {
-    "http-server": "^0.12.0"
+    "http-server": "^0.12.3"
   },
   "scripts": {
       "test": "http-server -c-1 -o ."
